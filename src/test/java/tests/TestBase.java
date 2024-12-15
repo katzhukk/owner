@@ -9,6 +9,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.Map;
@@ -18,12 +19,16 @@ public class TestBase {
 
     @BeforeAll
     static void setup() {
+
         RestAssured.baseURI = "https://demoqa.com";
         Configuration.baseUrl = "https://demoqa.com";
 
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-
         new WebDriverProvider();
+    }
+
+    @BeforeEach
+    void preTest() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
     @AfterEach
@@ -32,10 +37,6 @@ public class TestBase {
         Attach.screenshotAs("Last screenshot");
         Attach.browserConsoleLogs();
         Attach.addVideo();
-    }
-
-    @AfterEach
-    void closeWebDriver() {
-         Selenide.closeWebDriver();
+        Selenide.closeWebDriver();
     }
 }

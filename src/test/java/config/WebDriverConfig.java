@@ -23,7 +23,6 @@ public interface WebDriverConfig extends Config {
     String getBrowserSize();
 
     @Key("remoteUrl")
-    @DefaultValue("http://localhostt:43544")
     URL getRemoteURL();
 
     @Key("pageLoadStrategy")
